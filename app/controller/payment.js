@@ -7,58 +7,69 @@ const key = '2cfdc6472022023421f60c63481f0f904c81b0854c4dfc31924b051ace679de6';
 
 
 class PaymentController extends Controller {
-	async createOrder() {
-		const {
-			ctx
-		} = this;
-		let queryParams = ctx.request.query;
-		let hotelName = queryParams.hotelName;
-		let amount = queryParams.amount;
-		let orderId = queryParams.orderId;
-		let payType = queryParams.payType;
-		let params = {
-			memberId: '1000002',
-			token: '877466ffd21fe26dd1b3366330b7b560',
-			finishUrl: 'http://www.baidu.com',
-			notifyUrl: 'https://traveltutu.com/paymentor/orderCallBack',
-		};
-		params.payType = payType; //alipay wechat
-		params.desc = hotelName;
-		params.amount = amount;
-		params.memberOrderCode = orderId;
-		let sign = this.jsonSort(params);
-		params.paySign = crypto.createHash('md5').update((sign += ('&key=' + key))).digest('hex').toUpperCase();
-		const result = await ctx.curl(payServerUrl, {
-			method: 'POST',
-			contentType: 'json',
-			data: params,
-			dataType: 'json',
-		});
-		ctx.body = result;
-	}
 
-	jsonSort(jsonObj) {
-		let arr = [];
-		for (var key in jsonObj) {
-			arr.push(key)
-		}
-		arr.sort();
-		let str = '';
-		for (var i in arr) {
-			str += arr[i] + "=" + jsonObj[arr[i]] + "&"
-		}
-		return str.substr(0, str.length - 1)
-	}
+  async indexPage() {
+    const {
+      ctx
+    } = this;
+    ctx.body = 'egg ok';
+  }
 
-	async orderCallBack() {
-		const {
-			ctx
-		} = this;
-		console.log('===================回调来了===================');
-		console.log('===================回调来了===================');
-		console.log('===================回调来了===================');
-		ctx.body = 'ok';
-	}
+  async createOrder() {
+    const {
+      ctx
+    } = this;
+    let queryParams = ctx.request.query;
+    let hotelName = queryParams.hotelName;
+    let amount = queryParams.amount;
+    let orderId = queryParams.orderId;
+    let payType = queryParams.payType;
+    let params = {
+      memberId: '1000002',
+      token: '877466ffd21fe26dd1b3366330b7b560',
+      finishUrl: 'http://www.baidu.com',
+      notifyUrl: 'https://traveltutu.com/paymentor/orderCallBack',
+    };
+    params.payType = payType; //alipay wechat
+    params.desc = hotelName;
+    params.amount = amount;
+    params.memberOrderCode = orderId;
+    let sign = this.jsonSort(params);
+    params.paySign = crypto.createHash('md5')
+      .update((sign += ('&key=' + key)))
+      .digest('hex')
+      .toUpperCase();
+    const result = await ctx.curl(payServerUrl, {
+      method: 'POST',
+      contentType: 'json',
+      data: params,
+      dataType: 'json',
+    });
+    ctx.body = result;
+  }
+
+  jsonSort(jsonObj) {
+    let arr = [];
+    for (var key in jsonObj) {
+      arr.push(key);
+    }
+    arr.sort();
+    let str = '';
+    for (var i in arr) {
+      str += arr[i] + '=' + jsonObj[arr[i]] + '&';
+    }
+    return str.substr(0, str.length - 1);
+  }
+
+  async orderCallBack() {
+    const {
+      ctx
+    } = this;
+    console.log('===================回调来了===================');
+    console.log('===================回调来了===================');
+    console.log('===================回调来了===================');
+    ctx.body = 'ok';
+  }
 }
 
 module.exports = PaymentController;
