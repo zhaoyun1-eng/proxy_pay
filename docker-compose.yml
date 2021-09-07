@@ -1,0 +1,12 @@
+version: "2"
+services:
+  node:
+    build: ./
+    image: proxy-image
+    container_name: proxy-container
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/server/proxy_pay
+    ports:
+      - "7000:7001"
