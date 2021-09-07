@@ -10,4 +10,5 @@ services:
       - ./:/server/proxy_pay
     ports:
       - "7000:7001"
-    command: "npm start"
+    # command: "npm start"
+    command: bash -c "npm install && npm start"
