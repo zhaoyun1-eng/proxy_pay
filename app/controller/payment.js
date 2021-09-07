@@ -2,9 +2,8 @@
 
 const Controller = require('egg').Controller;
 const crypto = require('crypto');
-const payServerUrl = 'http://0084-87-201-49-142.ngrok.io/api/generateOrder';
+const payServerUrl = 'https://traveltutu.com/paymentor/api/generateOrder';
 const key = '2cfdc6472022023421f60c63481f0f904c81b0854c4dfc31924b051ace679de6';
-
 
 class PaymentController extends Controller {
 
@@ -29,8 +28,8 @@ class PaymentController extends Controller {
     let params = {
       memberId: '1000002',
       token: '877466ffd21fe26dd1b3366330b7b560',
-      finishUrl: 'http://www.baidu.com',
-      notifyUrl: 'http://pay.traveltutu.com/paymentor/orderCallBack',
+      finishUrl: '',
+      notifyUrl: 'http://pay.traveltutu.com/api/paymentor/orderCallBack',
     };
     ctx.logger.info('创建订单id:' + orderId);
     params.payType = payType; //alipay wechat
@@ -50,6 +49,7 @@ class PaymentController extends Controller {
     });
     ctx.logger.info('==================订单 response=======================');
     ctx.body = result;
+    ctx.status = 200;
   }
 
   jsonSort(jsonObj) {
@@ -69,10 +69,24 @@ class PaymentController extends Controller {
     const {
       ctx
     } = this;
-    console.log('===================回调来了===================');
-    console.log('===================回调来了===================');
-    console.log('===================回调来了===================');
-    ctx.body = 'ok';
+    ctx.logger.info('===================订单回调===================');
+    let orderId = ctx.request.body.memberOrderCode;
+    if (orderId == null) {
+      ctx.logger.error('接口回调异常');
+      return;
+    }
+    let url = 'https://traveltutu.com/wp-json/wc/v3/orders/' + orderId + '?consumer_key=ck_093054f5c9e987451437861c92f935cced4d27ac&consumer_secret=cs_4b3251dd1eead374704e0d3c2e046170e9d929c1';
+    const result = await ctx.curl(url, {
+      method: 'POST',
+      contentType: 'json',
+      data: {
+        'status': 'processing'
+      },
+      dataType: 'json',
+    });
+    ctx.logger.info('===================订单回调结束===================');
+    ctx.body = 'SUCCESS';
+    ctx.status = 200;
   }
 }
 

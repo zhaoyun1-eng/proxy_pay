@@ -10,5 +10,5 @@ module.exports = app => {
   } = app;
   router.get('/', controller.payment.indexPage);
   router.get('/createOrder', controller.payment.createOrder);
-  router.get('/orderCallBack', controller.payment.orderCallBack);
+  router.post('/orderCallBack', controller.payment.orderCallBack);
 };
