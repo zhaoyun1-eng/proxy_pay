@@ -57,6 +57,7 @@ class PaymentController extends Controller {
 		console.log('===================回调来了===================');
 		console.log('===================回调来了===================');
 		console.log('===================回调来了===================');
+		ctx.body = 'ok';
 	}
 }
 
