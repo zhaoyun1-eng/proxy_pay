@@ -1,7 +1,7 @@
 version: "2"
 services:
   node:
-    image: "node:8"
+    image: "node:10"
     user: "node"
     working_dir: /server/proxy_pay
     environment:
