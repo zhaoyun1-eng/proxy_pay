@@ -8,7 +8,7 @@ module.exports = app => {
     router,
     controller
   } = app;
-  router.get('/', controller.payment.indexPage);
-  router.get('/createOrder', controller.payment.createOrder);
-  router.post('/orderCallBack', controller.payment.orderCallBack);
+  router.get('/api/', controller.payment.indexPage);
+  router.get('/api/createOrder', controller.payment.createOrder);
+  router.post('/api/orderCallBack', controller.payment.orderCallBack);
 };
