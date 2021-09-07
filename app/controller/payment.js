@@ -29,7 +29,7 @@ class PaymentController extends Controller {
       memberId: '1000002',
       token: '877466ffd21fe26dd1b3366330b7b560',
       finishUrl: '',
-      notifyUrl: 'http://pay.traveltutu.com/api/paymentor/orderCallBack',
+      notifyUrl: 'http://pay.traveltutu.com/api/orderCallBack',
     };
     ctx.logger.info('创建订单id:' + orderId);
     params.payType = payType; //alipay wechat
