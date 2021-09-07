@@ -12,6 +12,7 @@ class PaymentController extends Controller {
     const {
       ctx
     } = this;
+    ctx.logger.info('some request data: ==================访问welcome=====================');
     ctx.body = 'egg ok';
   }
 
@@ -19,6 +20,7 @@ class PaymentController extends Controller {
     const {
       ctx
     } = this;
+    ctx.logger.info('==================订单request=======================');
     let queryParams = ctx.request.query;
     let hotelName = queryParams.hotelName;
     let amount = queryParams.amount;
@@ -30,6 +32,7 @@ class PaymentController extends Controller {
       finishUrl: 'http://www.baidu.com',
       notifyUrl: 'https://traveltutu.com/paymentor/orderCallBack',
     };
+    ctx.logger.info('创建订单id:' + orderId);
     params.payType = payType; //alipay wechat
     params.desc = hotelName;
     params.amount = amount;
@@ -45,6 +48,7 @@ class PaymentController extends Controller {
       data: params,
       dataType: 'json',
     });
+    ctx.logger.info('==================订单 response=======================');
     ctx.body = result;
   }
 
