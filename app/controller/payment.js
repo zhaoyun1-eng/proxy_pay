@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 const crypto = require('crypto');
-const payServerUrl = 'http://192.168.1.17:9999/api/generateOrder';
+const payServerUrl = 'http://0084-87-201-49-142.ngrok.io/api/generateOrder';
 const key = '2cfdc6472022023421f60c63481f0f904c81b0854c4dfc31924b051ace679de6';
 
 
