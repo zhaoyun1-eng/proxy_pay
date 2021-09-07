@@ -11,4 +11,4 @@ services:
     ports:
       - "7000:7001"
     # command: "npm start"
-    command: bash -c "npm install && npm start"
+    command: bash -c "npm i egg-scripts --save && npm install && npm start"
