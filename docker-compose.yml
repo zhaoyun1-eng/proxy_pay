@@ -7,6 +7,6 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./:/server/proxy_pay
+      - ./:/server/
     ports: 
       - "7000:7001"
