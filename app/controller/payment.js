@@ -71,6 +71,10 @@ class PaymentController extends Controller {
     } = this;
     ctx.logger.info('===================订单回调===================');
     let orderId = ctx.request.body.memberOrderCode;
+    if (ctx.request.body.status !== '2') {
+      ctx.logger.error('接口回调异常');
+      return;
+    }
     if (orderId == null) {
       ctx.logger.error('接口回调异常');
       return;
