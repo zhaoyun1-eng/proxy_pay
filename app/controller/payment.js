@@ -2,7 +2,7 @@
 
 const Controller = require('egg').Controller;
 const crypto = require('crypto');
-const payServerUrl = 'https://traveltutu.com/paymentor/api/generateOrder';
+const payServerUrl = 'https://pay.lkshares.com/api/generateOrder';
 const key = '2cfdc6472022023421f60c63481f0f904c81b0854c4dfc31924b051ace679de6';
 
 class PaymentController extends Controller {
