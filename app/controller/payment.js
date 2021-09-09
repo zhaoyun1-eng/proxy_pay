@@ -83,7 +83,6 @@ class PaymentController extends Controller {
     let url = 'https://traveltutu.com/wp-json/wc/v3/orders/' + orderId + '?consumer_key=ck_093054f5c9e987451437861c92f935cced4d27ac&consumer_secret=cs_4b3251dd1eead374704e0d3c2e046170e9d929c1';
     const result = await ctx.curl(url, {
       method: 'POST',
-      contentType: 'json',
       data: {
         'status': 'processing'
       },
