@@ -41,6 +41,7 @@ class PaymentController extends Controller {
       .update((sign += ('&key=' + key)))
       .digest('hex')
       .toUpperCase();
+    params.transferBankPage = '101';
     const result = await ctx.curl(payServerUrl, {
       method: 'POST',
       contentType: 'json',
