@@ -77,7 +77,7 @@ class PaymentController extends Controller {
     }
     ctx.logger.info('===============订单：' + orderId + '接收回调=================');
     ctx.logger.warn('订单回调状态：' + ctx.request.body.status);
-    if (ctx.request.body.status === 2) {
+    if (ctx.request.body.status === '2') {
       let url = 'https://traveltutu.com/wp-json/wc/v3/orders/' + orderId + '?consumer_key=ck_093054f5c9e987451437861c92f935cced4d27ac&consumer_secret=cs_4b3251dd1eead374704e0d3c2e046170e9d929c1';
       const result = await ctx.curl(url, {
         method: 'POST',
