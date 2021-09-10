@@ -19,19 +19,18 @@ class PaymentController extends Controller {
     const {
       ctx
     } = this;
-    ctx.logger.info('==================订单request=======================');
     let queryParams = ctx.request.query;
     let hotelName = queryParams.hotelName;
     let amount = queryParams.amount;
     let orderId = queryParams.orderId;
     let payType = queryParams.payType;
+    ctx.logger.info('创建订单=========>订单id:' + orderId);
     let params = {
       memberId: '1000002',
       token: '877466ffd21fe26dd1b3366330b7b560',
       finishUrl: 'hottutu://order',
       notifyUrl: 'http://pay.traveltutu.com/api/orderCallBack',
     };
-    ctx.logger.info('创建订单id:' + orderId);
     params.payType = payType; //alipay wechat
     params.desc = hotelName;
     params.amount = amount;
@@ -48,19 +47,19 @@ class PaymentController extends Controller {
       data: params,
       dataType: 'json',
     });
-    ctx.logger.info('==================订单 response=======================');
+    ctx.logger.info('订单' + orderId + '创建成功============> success');
     ctx.body = result;
     ctx.status = 200;
   }
 
   jsonSort(jsonObj) {
     let arr = [];
-    for (var key in jsonObj) {
+    for (let key in jsonObj) {
       arr.push(key);
     }
     arr.sort();
     let str = '';
-    for (var i in arr) {
+    for (let i in arr) {
       str += arr[i] + '=' + jsonObj[arr[i]] + '&';
     }
     return str.substr(0, str.length - 1);
@@ -70,27 +69,30 @@ class PaymentController extends Controller {
     const {
       ctx
     } = this;
-    ctx.logger.info('===================订单回调===================');
     let orderId = ctx.request.body.memberOrderCode;
-    if (ctx.request.body.status !== '2') {
-      ctx.logger.error('接口回调异常');
-      return;
-    }
     if (orderId == null) {
-      ctx.logger.error('接口回调异常');
+      ctx.logger.error('!!!!!订单id为空!!!!!!');
+      ctx.body = '订单id为空';
       return;
     }
-    let url = 'https://traveltutu.com/wp-json/wc/v3/orders/' + orderId + '?consumer_key=ck_093054f5c9e987451437861c92f935cced4d27ac&consumer_secret=cs_4b3251dd1eead374704e0d3c2e046170e9d929c1';
-    const result = await ctx.curl(url, {
-      method: 'POST',
-      data: {
-        'status': 'processing'
-      },
-      dataType: 'json',
-    });
-    ctx.logger.info('===================订单回调结束===================');
-    ctx.body = 'SUCCESS';
-    ctx.status = 200;
+    ctx.logger.info('===============订单：' + orderId + '接收回调=================');
+    ctx.logger.warn('订单回调状态：' + ctx.request.body.status);
+    if (ctx.request.body.status === 2) {
+      let url = 'https://traveltutu.com/wp-json/wc/v3/orders/' + orderId + '?consumer_key=ck_093054f5c9e987451437861c92f935cced4d27ac&consumer_secret=cs_4b3251dd1eead374704e0d3c2e046170e9d929c1';
+      const result = await ctx.curl(url, {
+        method: 'POST',
+        contentType: 'json',
+        data: {
+          'status': 'processing'
+        },
+        dataType: 'json',
+      });
+      ctx.logger.info('订单：' + orderId + '处理成功');
+      ctx.body = 'SUCCESS';
+    } else {
+      ctx.body = '订单状态错误';
+      ctx.logger.error('订单' + orderId + '回调失败 Status 状态不匹配');
+    }
   }
 }
 
