@@ -28,7 +28,8 @@ class PaymentController extends Controller {
     let params = {
       memberId: '1000002',
       token: '877466ffd21fe26dd1b3366330b7b560',
-      finishUrl: 'hottutu://order',
+      // finishUrl: 'hottutu://order',
+      finishUrl: 'http://m.traveltutu.com/',
       notifyUrl: 'http://pay.traveltutu.com/api/orderCallBack',
     };
     params.payType = payType; //alipay wechat
