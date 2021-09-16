@@ -24,6 +24,7 @@ class PaymentController extends Controller {
     let amount = queryParams.amount;
     let orderId = queryParams.orderId;
     let payType = queryParams.payType;
+    let client = queryParams.client;
     ctx.logger.info('创建订单=========>订单id:' + orderId);
     let params = {
       memberId: '1000002',
@@ -42,6 +43,7 @@ class PaymentController extends Controller {
       .digest('hex')
       .toUpperCase();
     params.transferBankPage = '101';
+    params.platform = client;
     const result = await ctx.curl(payServerUrl, {
       method: 'POST',
       contentType: 'json',
